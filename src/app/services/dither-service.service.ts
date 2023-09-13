@@ -11,7 +11,6 @@ export class DitherService {
 
   loadImageData(newData:ImageData) {
     this.imageData = newData
-    console.log("receive data", newData)
     this.ditherize()
     return this.imageData
   }
@@ -38,9 +37,6 @@ export class DitherService {
         this.floydSteinberg(i, error, limX);
       }
     }
-
-
-
   }
 
   private floydSteinberg(i: number, error: number, limX: number) { 

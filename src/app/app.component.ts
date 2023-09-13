@@ -50,15 +50,12 @@ export class AppComponent implements AfterViewInit{
      this.drawImageIntoCanvasToSaveData()
      //now our imageData has all the goodies needed for bit manipulation
      let newData = this.ditherService.loadImageData(this.imageData!)
-     console.log("return data", newData)
+
      if(newData) this.renderImageData(newData)
-     //this.renderImageData(imageData)
    }
   }
 
   renderImageData(imageData: ImageData) {
-    console.log("reached")
-    console.log(imageData)
     if(!this.displayCanvas||!this.displayCtx) return        
 
     this.displayCanvas.height = this.image!.height
@@ -88,7 +85,6 @@ export class AppComponent implements AfterViewInit{
       this.hiddenCanvas.width = this.image.width
       this.hiddenCtx.drawImage(this.image, 0, 0)
       this.imageData = this.hiddenCtx.getImageData(0, 0, this.hiddenCanvas.width, this.hiddenCanvas.height)     
-      console.log("load image", this.imageData)
     }   
   
   }
