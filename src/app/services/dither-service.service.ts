@@ -11,11 +11,10 @@ export class DitherService {
 
   loadImageData(newData:ImageData) {
     this.imageData = newData
-    
-    console.log(this.imageData)
+    console.log("receive data", newData)
     this.ditherize()
+    return this.imageData
   }
-
 
 
   ditherize() {
@@ -23,7 +22,6 @@ export class DitherService {
     this.data = this.imageData.data
     const limX = this.imageData.width
     const limY = this.imageData.height
-    console.log(this.data)
     for (let y = 0; y < limY; y++) {
       for (let x = 0; x < limX; x++){
         let i = (y * limX + x) * 4
@@ -41,7 +39,6 @@ export class DitherService {
       }
     }
 
-    console.log(this.data)
 
 
   }
