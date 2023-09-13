@@ -10,6 +10,7 @@ export class AppComponent implements AfterViewInit{
   title = 'PixelGraze';
   
   ditherService: DitherService;
+  ditherMethod: string = "Steinberg";
 
   @ViewChild("hiddenCanvas") hiddenCanvasView: ElementRef<HTMLCanvasElement> | undefined;
   hiddenCanvas: HTMLCanvasElement | undefined;
@@ -25,12 +26,7 @@ export class AppComponent implements AfterViewInit{
 
   fileReader = new FileReader();
   file:File | null = null;
-  
-  //open file
-  //pass file to canvas imageData
-  //modify imageData, then pass it back to canvas
-  //display canvas
-  
+    
   constructor(ditherService:DitherService) {
     this.ditherService = ditherService;
   }
@@ -53,18 +49,11 @@ export class AppComponent implements AfterViewInit{
 
      if(newData) this.renderImageData(newData)
    }
-  }
+  } 
 
-  renderImageData(imageData: ImageData) {
-    if(!this.displayCanvas||!this.displayCtx) return        
-
-    this.displayCanvas.height = this.image!.height
-    this.displayCanvas.width = this.image!.width
-    
-    this.displayCtx.clearRect(0,0,this.displayCanvas.width, this.displayCanvas.height)
-
-
-    this.displayCtx.putImageData(imageData, 0, 0)
+  onDitherMethodSelected(event:any) { 
+    this.ditherMethod = event.target.value
+    this.ditherService.selectDitherMethod(this.ditherMethod)
   }
 
   loadFileIntoImageSrc(file:File) { 
@@ -86,6 +75,17 @@ export class AppComponent implements AfterViewInit{
       this.hiddenCtx.drawImage(this.image, 0, 0)
       this.imageData = this.hiddenCtx.getImageData(0, 0, this.hiddenCanvas.width, this.hiddenCanvas.height)     
     }   
-  
+  }
+
+  renderImageData(imageData: ImageData) {
+    if(!this.displayCanvas||!this.displayCtx) return        
+
+    this.displayCanvas.height = this.image!.height
+    this.displayCanvas.width = this.image!.width
+    
+    this.displayCtx.clearRect(0,0,this.displayCanvas.width, this.displayCanvas.height)
+
+
+    this.displayCtx.putImageData(imageData, 0, 0)
   }
 }

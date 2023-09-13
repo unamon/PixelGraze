@@ -3,14 +3,17 @@
        accept="image/png" #fileUpload>
 
 <div class="file-upload">
-
-   
-
     <button mat-mini-fab color="primary" class="upload-btn"
       (click)="fileUpload.click()">
         <label>attach_file</label>
     </button>
 </div>
+
+<select name="dither Methods" id="" (change)="onDitherMethodSelected($event)">
+  <option value="1">Floyd-Steinberg</option>
+  <option value="2">Atkinson</option>
+  <option value="3">JJN</option>
+</select>
 
 <canvas style="display: none;" #hiddenCanvas></canvas>
 <canvas  #displayCanvas></canvas>

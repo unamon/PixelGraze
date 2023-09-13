@@ -7,6 +7,8 @@ export class DitherService {
 
   imageData:ImageData | undefined; 
   data: Uint8ClampedArray | undefined;
+  ditherMethod: string = "Steinberg";
+
   constructor() { }
 
   loadImageData(newData:ImageData) {
@@ -14,7 +16,6 @@ export class DitherService {
     this.ditherize()
     return this.imageData
   }
-
 
   ditherize() {
     if (this.imageData == undefined) return
@@ -34,9 +35,23 @@ export class DitherService {
 
         let error = average - value;
 
-        this.floydSteinberg(i, error, limX);
+        switch (this.ditherMethod) {
+          case "Steinberg":
+            this.floydSteinberg(i, error, limX);
+            break;
+          case "Atkinson":
+            break;
+          case "Ninke":
+            break;
+          default:
+            break;
+        }
       }
     }
+  }
+
+  selectDitherMethod(method: string) { 
+    this.ditherMethod = method
   }
 
   private floydSteinberg(i: number, error: number, limX: number) { 
@@ -62,4 +77,6 @@ export class DitherService {
     this.data[pixel + 1] = Math.floor((average + (error * errorQuoeficient / quantaSize)))
     this.data[pixel + 2] = Math.floor((average + (error * errorQuoeficient / quantaSize)))
   }
+
+
 }
