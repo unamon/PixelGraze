@@ -41,15 +41,18 @@ export class AppComponent implements AfterViewInit{
 
   onFileSelected(event:any) { 
    this.loadFileIntoImageSrc(event.target.files[0])
-   this.image!.onload = () => {
+   this.displayCtx!.clearRect(0,0,this.displayCanvas!.width, this.displayCanvas!.height)
+
+  } 
+
+  doDither() {
      //now that our img src points to the uploaded file, we pass it to the canvas for transform into ImageData
      this.drawImageIntoCanvasToSaveData()
      //now our imageData has all the goodies needed for bit manipulation
      let newData = this.ditherService.loadImageData(this.imageData!)
 
      if(newData) this.renderImageData(newData)
-   }
-  } 
+  }
 
   onDitherMethodSelected(event:any) { 
     this.ditherMethod = event.target.value

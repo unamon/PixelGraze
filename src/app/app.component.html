@@ -1,3 +1,6 @@
+<!-- Make this into sane bootstrap? -->
+
+
 <input type="file" class="file-input"
        (change)="onFileSelected($event)"
        accept="image/png" #fileUpload>
@@ -5,14 +8,17 @@
 <div class="file-upload">
     <button mat-mini-fab color="primary" class="upload-btn"
       (click)="fileUpload.click()">
-        <label>attach_file</label>
+        <label>Choose image</label>
+    </button>
+    <button class="dither-btn" (click)="doDither()">
+      <label for="">Dither!</label>
     </button>
 </div>
 
 <select name="dither Methods" id="" (change)="onDitherMethodSelected($event)">
-  <option value="1">Floyd-Steinberg</option>
-  <option value="2">Atkinson</option>
-  <option value="3">JJN</option>
+  <option value="Steinberg">Floyd-Steinberg</option>
+  <option value="Atkinson">Atkinson</option>
+  <option value="Ninke">JJN</option>
 </select>
 
 <canvas style="display: none;" #hiddenCanvas></canvas>
@@ -20,9 +26,3 @@
 <img src="" alt="" id="wrkrImage" #image>
 <div *ngIf="file"></div>
 
-<!-- 
-<div class="">
-  <div class="progress" *ngIf="inprogress">
-    <p>loading...</p>
-  </div>
-</div> -->
