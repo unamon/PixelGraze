@@ -40,8 +40,10 @@ export class DitherService {
             this.floydSteinberg(i, error, limX);
             break;
           case "Atkinson":
+            this.atkinson(i, error, limX);
             break;
           case "Ninke":
+            this.JJN(i, error, limX);
             break;
           default:
             break;
@@ -66,6 +68,55 @@ export class DitherService {
     if (downPixel)      this.errorSpread(downPixel, error, 5, 16)
     if (downRightPixel) this.errorSpread(downRightPixel, error, 1, 16)
     this.errorSpread(downLeftPixel, error, 3, 16)
+  }
+  
+  private atkinson(i: number, error: number, limX: number) {
+    if (!this.data) return
+    
+    let right1 = i + 4 < this.data.length ? i + 4 : false;
+    let right2 = i + 8 < this.data.length ? i + 8 : false;
+    let botleft = i + limX * 4 - 4
+    let bot = i + limX * 4
+    let botright = i + limX * 4 + 4 < this.data.length ? i + limX * 4 + 4 : false
+    let bot2 = i + limX * 4 * 2 < this.data.length ? i + limX * 4 * 2 : false
+
+    if (right1)   this.errorSpread(right1, error, 1, 8)
+    if (right2)   this.errorSpread(right2, error, 1, 8)
+    if (botleft)  this.errorSpread(botleft, error, 1, 8)
+    if (bot)      this.errorSpread(bot, error, 1, 8)
+    if (botright) this.errorSpread(botright, error, 1, 8)
+    if (bot2)     this.errorSpread(bot2, error, 1, 8)
+  }
+
+  private JJN(i: number, error: number, limX: number) {
+    if (!this.data) return
+
+    let r1   = i + 4 < this.data.length ? i + 4 : false;
+    let r2   = i + 8 < this.data.length ? i + 8 : false;
+    let l2b1 = i + limX * 4 - 8
+    let l1b1 = i + limX * 4 - 4
+    let b1   = i + limX * 4
+    let r1b1 = i + limX * 4 + 4 < this.data.length ? i + limX * 4 + 4 : false
+    let r2b1 = i + limX * 4 + 8 < this.data.length ? i + limX * 4 + 8 : false
+    let l2b2 = i + limX * 4 * 2 - 8
+    let l1b2 = i + limX * 4 * 2 - 4
+    let b2   = i + limX * 4 * 2
+    let r1b2 = i + limX * 4 + 2 + 4 < this.data.length ? i + limX * 4 * 2 + 4 : false
+    let r2b2 = i + limX * 4 + 2 + 8 < this.data.length ? i + limX * 4 * 2 + 8 : false
+
+    if (r1)   this.errorSpread(r1, error, 7, 48)
+    if (r2)   this.errorSpread(r2, error, 7, 48)
+    if (l2b1) this.errorSpread(l2b1, error, 7, 48)
+    if (l1b1) this.errorSpread(l1b1, error, 7, 48)
+    if (b1)   this.errorSpread(b1, error, 7, 48)
+    if (r1b1) this.errorSpread(r1b1, error, 7, 48)
+    if (r2b1) this.errorSpread(r2b1, error, 7, 48)
+    if (l2b2) this.errorSpread(l2b2, error, 7, 48)
+    if (l1b2) this.errorSpread(l1b2, error, 7, 48)
+    if (b2)   this.errorSpread(b2, error, 7, 48)
+    if (r1b2) this.errorSpread(r1b2, error, 7, 48)
+    if (r2b2) this.errorSpread(r2b2, error, 7, 48)
+
   }
 
   private errorSpread(pixel: number, error: number, errorQuoeficient:number, quantaSize:number) { 
