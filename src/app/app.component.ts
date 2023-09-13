@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Optional, ViewChild } from '@angular/core';
+import { DitherService } from './services/dither-service.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,8 @@ import { AfterViewInit, Component, ElementRef, OnInit, Optional, ViewChild } fro
 export class AppComponent implements AfterViewInit{
   title = 'PixelGraze';
   
+  ditherService: DitherService;
+
   @ViewChild("canvas") canvasView: ElementRef<HTMLCanvasElement> | undefined;
   canvas: HTMLCanvasElement | undefined;
   ctx: CanvasRenderingContext2D | undefined;
@@ -17,7 +20,6 @@ export class AppComponent implements AfterViewInit{
   image: HTMLImageElement | undefined;
 
   fileReader = new FileReader();
-  
   file:File | null = null;
   
   //open file
@@ -25,7 +27,9 @@ export class AppComponent implements AfterViewInit{
   //modify imageData, then pass it back to canvas
   //display canvas
   
-  constructor() {}
+  constructor(ditherService:DitherService) {
+    this.ditherService = ditherService;
+  }
 
   ngAfterViewInit(): void {
     this.canvas = this.canvasView?.nativeElement
@@ -38,6 +42,7 @@ export class AppComponent implements AfterViewInit{
    //now that our img src points to the uploaded file, we pass it to the canvas for transform into ImageData
    this.drawImageIntoCanvasToSaveData()
    //now our imageData has all the goodies needed for bit manipulation
+   this.ditherService.loadImageData(this.imageData!)
   }
 
   loadFileIntoImageSrc(file:File) { 
@@ -60,7 +65,6 @@ export class AppComponent implements AfterViewInit{
         this.ctx.drawImage(this.image, 0, 0)
         this.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
       }
-      console.log(this.image?.height)
     }
   }
 }
