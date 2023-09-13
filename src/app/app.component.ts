@@ -7,7 +7,6 @@ import { AfterViewInit, Component, ElementRef, OnInit, Optional, ViewChild } fro
 })
 export class AppComponent implements AfterViewInit{
   title = 'PixelGraze';
-
   
   @ViewChild("canvas") canvasView: ElementRef<HTMLCanvasElement> | undefined;
   canvas: HTMLCanvasElement | undefined;
